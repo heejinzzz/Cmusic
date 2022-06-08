@@ -1,4 +1,4 @@
-package C_music
+package Cmusic
 
 import (
 	pb "Cmusic/uploadSongProto"
