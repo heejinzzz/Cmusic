@@ -31,6 +31,8 @@ make update tidy
 
 go run main.go
 
+服务 uploadSong 和 downloadSong 的服务端的部署同理。
+
 	Client use（使用客户端）：
 完成 git clone 后执行：
 
