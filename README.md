@@ -5,7 +5,7 @@ A micro service for music uploading and downloading based on go micro framework.
 
 
 
-	explanation:
+	Explanation:
 
 There are three services, songList, uploadSong and downloadSong, which are registered on the consul.
 
@@ -16,3 +16,28 @@ The whole project includes the code implementation of the server and client of e
 共包括songList、uploadSong、downloadSong三个服务，将它们注册到了consul上。
 
 整个项目包括了每个服务的服务端和客户端的代码实现。
+
+	Installation：
+git clone https://github.com/heejinzzz/Cmusic.git
+
+	Deploy the server（部署服务端）：
+以部署服务songList的服务端为例：
+
+在安装并启动consul后，执行：
+
+cd Cmusic/songList
+
+make update tidy
+
+go run main.go
+
+	Client use（使用客户端）：
+完成 git clone 后执行：
+
+cd Cmusic
+
+go get -u
+
+go mod tidy
+
+然后在client文件夹下的client.go文件中调用songList（获取C-Music中的歌曲列表）、uploadSong（向C-Music上传歌曲）、downloadSong（从C-Music下载歌曲到本地）函数即可。
