@@ -6,8 +6,10 @@ import (
 	"fmt"
 	"github.com/asim/go-micro/plugins/registry/consul/v4"
 	"go-micro.dev/v4"
+	client2 "go-micro.dev/v4/client"
 	"go-micro.dev/v4/registry"
 	"strconv"
+	"time"
 )
 
 var consulAddress = "127.0.0.1:8500"
@@ -28,9 +30,15 @@ func GetSongList() {
 
 	// 创建该服务的客户端方
 	client := pb.NewSongListService("songlist", srv.Client())
+	
+	// 设置连接超时时间
+	opts := func(o *client2.CallOptions) {
+		o.RequestTimeout = 20 * time.Second
+		o.DialTimeout = 20 * time.Second
+	}
 
 	// 客户端调用服务，获取歌曲列表，打印出来
-	songs, err := client.Call(context.Background(), &pb.CallRequest{})
+	songs, err := client.Call(context.Background(), &pb.CallRequest{}, opts)
 	if err != nil {
 		fmt.Println(err)
 		panic(err)
