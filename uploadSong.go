@@ -6,9 +6,11 @@ import (
 	"fmt"
 	"github.com/asim/go-micro/plugins/registry/consul/v4"
 	"go-micro.dev/v4"
+	client2 "go-micro.dev/v4/client"
 	"go-micro.dev/v4/registry"
 	"io/ioutil"
 	"strings"
+	"time"
 )
 
 // UploadSong 向C-Music上传歌曲
@@ -27,6 +29,12 @@ func UploadSong(fileName string) {
 
 	// 创建该服务的客户端方
 	client := pb.NewUploadSongService("uploadsong", service.Client())
+	
+	// 设置连接超时时间
+	opts := func(o *client2.CallOptions) {
+		o.RequestTimeout = 5 * time.Minute
+		o.DialTimeout = 5 * time.Minute
+	}
 
 	// 读指定文件，将文件名和读到的数据传给服务端
 	songData, err := ioutil.ReadFile(fileName)
@@ -42,7 +50,7 @@ func UploadSong(fileName string) {
 		Name:     songName,
 		SongFile: songData,
 	}
-	_, err = client.Call(context.Background(), &req)
+	_, err = client.Call(context.Background(), &req, opts)
 	if err != nil {
 		fmt.Println(err)
 		panic(err)
