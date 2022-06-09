@@ -27,19 +27,9 @@ git clone https://github.com/heejinzzz/Cmusic.git
 
 cd Cmusic/songList
 
-make update tidy
-
 go run main.go
 
 服务 uploadSong 和 downloadSong 的服务端的部署同理。
 
 	Client use（使用客户端）：
-完成 git clone 后执行：
-
-cd Cmusic
-
-go get -u
-
-go mod tidy
-
-然后在client文件夹下的client.go文件中调用songList（获取C-Music中的歌曲列表）、uploadSong（向C-Music上传歌曲）、downloadSong（从C-Music下载歌曲到本地）函数即可。
+完成 git clone 后，在client文件夹下的client.go文件中调用songList（获取C-Music中的歌曲列表）、uploadSong（向C-Music上传歌曲）、downloadSong（从C-Music下载歌曲到本地）函数，并运行client.go即可。
