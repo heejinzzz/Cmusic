@@ -6,9 +6,11 @@ import (
 	"fmt"
 	"github.com/asim/go-micro/plugins/registry/consul/v4"
 	"go-micro.dev/v4"
+	client2 "go-micro.dev/v4/client"
 	"go-micro.dev/v4/registry"
 	"io/ioutil"
 	"os"
+	"time"
 )
 
 // DownloadSong 从C-Music下载歌曲保存到本地
@@ -27,9 +29,15 @@ func DownloadSong(songName string, savePath string) {
 
 	// 创建该服务的客户端方
 	client := pb.NewDownloadSongService("downloadsong", service.Client())
+	
+	// 设置连接超时时间
+	opts := func(o *client2.CallOptions) {
+		o.RequestTimeout = 5 * time.Minute
+		o.DialTimeout = 5 * time.Minute
+	}
 
 	// 客户端调用服务，获取指定歌曲的数据，将其保存为歌曲文件
-	rep, err := client.Call(context.Background(), &pb.CallRequest{Name: songName})
+	rep, err := client.Call(context.Background(), &pb.CallRequest{Name: songName}, opts)
 	if err != nil {
 		fmt.Println(err)
 		panic(err)
